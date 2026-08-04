@@ -1,7 +1,7 @@
 ﻿using capitulo02.Data;
 using capitulo02.Models;
 using System.Linq;
-namespace Capitulo02.Data
+namespace capitulo02.Data
 {
     public class IESDbInitializer
     {

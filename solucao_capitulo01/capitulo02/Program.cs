@@ -1,10 +1,17 @@
 using capitulo02.Data;
-using Capitulo02.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+////
+builder.Services.AddDbContext<IESContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("IESConnection")));
+////
+
+
 
 var app = builder.Build();
 
