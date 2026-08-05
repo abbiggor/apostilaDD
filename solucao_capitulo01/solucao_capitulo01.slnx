@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="Capitulo001/Capitulo001.csproj" Id="49fb495c-10de-4e5c-bbde-5e6a5b8d4806" />
   <Project Path="capitulo01/capitulo01.csproj" />
   <Project Path="capitulo02/capitulo02.csproj" Id="eba04057-ca2a-4904-8e09-5c5d400af48c" />
 </Solution>
