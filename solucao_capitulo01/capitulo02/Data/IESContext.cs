@@ -1,6 +1,7 @@
 ﻿using capitulo02.Models;
 using capitulo01.Models;
 using Microsoft.EntityFrameworkCore;
+
 namespace capitulo01.Models
 {
     public class Instituicao

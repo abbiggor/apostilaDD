@@ -6,10 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-////
+//// cria o contexto do banco de dados
 builder.Services.AddDbContext<IESContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("IESConnection")));
-////
+//// e por meio da lambda, configura o contexto para buscar a string de conexão criada no appsettings.json
 
 
 
@@ -24,16 +24,17 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
-app.UseRouting();
+app.UseHttpsRedirection(); // redireciona requests HTTP para HTTPS
+app.UseStaticFiles(); // habilita o uso de arquivos estáticos (css, js,
+app.UseRouting(); // habilita rotas para que o app possa responder as requests de acordo com as actions dos controllers
 
 app.UseAuthorization();
 
 app.MapStaticAssets();
 
-app.MapControllerRoute(
+app.MapControllerRoute( // define a rota padrão 
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=Departamento}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 using (var scope = app.Services.CreateScope())
