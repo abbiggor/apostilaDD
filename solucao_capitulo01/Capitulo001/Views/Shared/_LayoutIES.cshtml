@@ -13,7 +13,7 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"	/>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap-grid.min.css" asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap-grid.min.css" asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
 	</environment>
-	@RenderSection("Styles", required: false)
+	@RenderSection("Styles", false)
 </head>
 
 <body>
@@ -40,7 +40,7 @@
 		<div class="col-3">
 			<nav class="nav	flex-column	bg-transparent" style="margin-left:40px;">
 				<div class="row">
-					<a class="nav-link	active" href="#">
+					<a class="nav-link	active" href="../Instituicao/Index.cshtml">
 						<img src="~/images/university.png" width="30" height="30" alt="IMG">
 						Instituições
 					</a>
@@ -80,7 +80,7 @@
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js" asp-fallback-src="~/lib/bootstrap/dist/js/bootstap.min.js">
 		</script>
 	</environment>
-	@RenderSection("ScriptPage", required: false)
+	@RenderSection("ScriptPage", false)
 </body>
 </html>
 
