@@ -7,10 +7,6 @@
       "library": "bootstrap@4.5.0",
       "destination": "wwwroot/lib/bootstrap/"
     },
-    //{
-    //  "library": "jquery@4.0.0",
-    //  "destination": "wwwroot/lib/jquery/"
-    //},
     {
       "library": "jquery-validate@1.22.1",
       "destination": "wwwroot/lib/jquery-validate/"
@@ -23,19 +19,17 @@
       "library": "popper.js@2.11.8",
       "destination": "wwwroot/lib/popper.js/"
     },
-    // {
-    //   "library": "datatables@2.3.7",
-    //   "destination": "wwwroot/lib/datatables/"
-    // },
     {
-      "provider": "cdnjs",
       "library": "datatables@1.10.20",
       "destination": "wwwroot/lib/datatables/"
     },
     {
-      "provider": "cdnjs",
       "library": "jquery@3.7.1",
       "destination": "wwwroot/lib/jquery/"
+    },
+    {
+      "library": "fontawesome-iconpicker@3.2.0",
+      "destination": "wwwroot/lib/fontawesome-iconpicker/"
     }
   ]
 }
