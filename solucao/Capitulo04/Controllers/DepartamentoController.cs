@@ -1,9 +1,11 @@
-﻿using Capitulo04.Models;
-using Capitulo04.Data;
+﻿using Capitulo04.Data;
+using Capitulo04.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace Capitulo04.Controllers
@@ -33,13 +35,21 @@ namespace Capitulo04.Controllers
         // Método GET 
         public IActionResult Create()
         {
+            var instituicoes = _context.Instituicoes.OrderBy(i => i.Nome).ToList();
+            instituicoes.Insert(0, new Instituicao()
+            {
+                InstituicaoID = 0,
+                Nome = "Selecione a instituição"
+            });
+            ViewBag.Instituicoes = instituicoes;
+            // listagem acima implementada para popular o dropdown list de instituições na view Create
             return View();
         }
         // Método POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nome")] Departamento departamento)
-        {
+        public async Task<IActionResult> Create([Bind("Nome, InstituicaoID")] Departamento departamento)
+        {                                       // Bind acima atualizado para incluir a propriedade InstituicaoID, que é necessária para a criação de um novo departamento
             try
             {
                 if (ModelState.IsValid)
@@ -53,6 +63,15 @@ namespace Capitulo04.Controllers
             {
                 ModelState.AddModelError("", "Não foi possível realizar a inserção dos dados.");
             }
+            // listagem abaixo implementada para repopular o dropdown list de instituições na view Create, caso ocorra algum erro de validação
+            var instituicoes = _context.Instituicoes.OrderBy(i => i.Nome).ToList();
+            instituicoes.Insert(0, new Instituicao()
+            {
+                InstituicaoID = 0,
+                Nome = "Selecione a instituição"
+            });
+            ViewBag.Instituicoes = instituicoes;
+           
             return View(departamento);
         }
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -70,12 +89,15 @@ namespace Capitulo04.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.Instituicoes = new SelectList(_context.Instituicoes.OrderBy(b => b.Nome), "InstituicaoID", "Nome", departamento.InstituicaoID);
+            // listagem acima implementada para popular o dropdown list de instituições na view Edit, com a instituição do departamento selecionada
             return View(departamento);
         }
         // Método POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long? id, [Bind("DepartamentoID,Nome")] Departamento departamento)
+        public async Task<IActionResult> Edit(long? id, [Bind("DepartamentoID, Nome, InstituicaoID")] Departamento departamento)
         {
             if (id != departamento.DepartamentoID)
             {
@@ -99,8 +121,10 @@ namespace Capitulo04.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.Instituicoes = new SelectList(_context.Instituicoes.OrderBy(b => b.Nome), "InstituicaoID", "Nome", departamento.InstituicaoID);
             return View(departamento);
         }
         private bool DepartamentoExists(long? id)
@@ -118,6 +142,7 @@ namespace Capitulo04.Controllers
                 return NotFound();
             }
             var departamento = await _context.Departamentos.SingleOrDefaultAsync(m => m.DepartamentoID == id);
+            _context.Instituicoes.Where(i => departamento.InstituicaoID == i.InstituicaoID).Load();
             if (departamento == null)
             {
                 return NotFound();
