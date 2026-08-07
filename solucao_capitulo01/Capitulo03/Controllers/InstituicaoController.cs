@@ -75,7 +75,7 @@ namespace Capitulo03.Controllers // definição do namespace "Capitulo03.Control
         // Método POST - Recebe os dados do formulário e atualiza a instituição existente
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long? id, [Bind("InstituicaoId,Nome,Endereco")] Instituicao instituicao)
+        public async Task<IActionResult> Edit(long? id, [Bind("InstituicaoID,Nome,Endereco")] Instituicao instituicao)
         {
             if (id != instituicao.InstituicaoID)
             {

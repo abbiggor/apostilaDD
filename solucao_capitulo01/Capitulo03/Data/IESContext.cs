@@ -10,6 +10,6 @@ namespace Capitulo03.Data
 
         //mapeamento da classe para o modelo relacional
         public DbSet<Instituicao> Instituicoes { get; set; }
-        //public DbSet<Departamento> Departamentos { get; set; } ////// será utilizado posteriormente
+        public DbSet<Departamento> Departamentos { get; set; }
     }
 }
