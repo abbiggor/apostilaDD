@@ -1,6 +1,6 @@
-﻿using Capitulo001.Models;
+﻿using Capitulo03.Models;
 using Microsoft.EntityFrameworkCore;
-namespace Capitulo001.Data
+namespace Capitulo03.Data
 {
     public class IESContext : DbContext // definição da classe IESContext que herda de DbContext, que é a classe base para trabalhar com o Entity Framework Core
     {

@@ -1,4 +1,4 @@
-namespace Capitulo001.Models
+namespace Capitulo03.Models
 {
     public class ErrorViewModel
     {

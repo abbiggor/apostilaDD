@@ -1,8 +1,8 @@
-using Capitulo001.Models;
+using Capitulo03.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace Capitulo001.Controllers
+namespace Capitulo03.Controllers
 {
     public class HomeController : Controller
     {
