@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="capitulo01/capitulo01.csproj" />
+  <Project Path="capitulo02/capitulo02.csproj" Id="eba04057-ca2a-4904-8e09-5c5d400af48c" />
+  <Project Path="Capitulo03/Capitulo03.csproj" />
+  <Project Path="Capitulo04/Capitulo04.csproj" Id="a2463f71-95f0-41fe-968b-4b3a90d2f691" />
+</Solution>
