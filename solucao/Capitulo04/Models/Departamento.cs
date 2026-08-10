@@ -7,6 +7,6 @@
 
         // Associação com a classe Instituicao
         public long? InstituicaoID { get; set; }
-        public Instituicao Instituicao { get; set; }
+        public Instituicao? Instituicao { get; set; }
     }
 }

@@ -8,7 +8,7 @@
         public string Endereco { get; set; }
 
         // Associação com a classe Departamento
-        public virtual ICollection<Departamento> Departamentos // virtual permite que a propriedade seja substituída em classes derivadas, ICollection<Departamento> é uma coleção de objetos do tipo Departamento
+        public virtual ICollection<Departamento>? Departamentos // virtual permite que a propriedade seja substituída em classes derivadas, ICollection<Departamento> é uma coleção de objetos do tipo Departamento
         {
             get; set;
         }
