@@ -1,4 +1,6 @@
-﻿namespace projeto_mvc.Models
+﻿using System.Collections.Generic;
+
+namespace Modelo.Cadastros
 {
     public class Instituicao // definição da classe Instituicao
     {
@@ -8,7 +10,7 @@
         public string Endereco { get; set; }
 
         // Associação com a classe Departamento
-        public virtual ICollection<Departamento>? Departamentos // virtual permite que a propriedade seja substituída em classes derivadas, ICollection<Departamento> é uma coleção de objetos do tipo Departamento
+        public virtual ICollection<Modelo.Cadastros.Departamento>? Departamentos // virtual permite que a propriedade seja substituída em classes derivadas, ICollection<Departamento> é uma coleção de objetos do tipo Departamento
         {
             get; set;
         }

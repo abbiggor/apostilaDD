@@ -1,5 +1,5 @@
 ﻿using projeto_mvc.Data;
-using projeto_mvc.Models;
+using Modelo.Cadastros;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;

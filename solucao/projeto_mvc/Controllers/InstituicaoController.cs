@@ -1,4 +1,4 @@
-﻿using projeto_mvc.Models;
+﻿using Modelo.Cadastros;
 using projeto_mvc.Data;
 using Microsoft.AspNetCore.Mvc;
 ////

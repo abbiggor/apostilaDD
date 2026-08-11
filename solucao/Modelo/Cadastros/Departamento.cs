@@ -1,4 +1,4 @@
-﻿namespace projeto_mvc.Models
+﻿namespace Modelo.Cadastros
 {
     public class Departamento
     {
