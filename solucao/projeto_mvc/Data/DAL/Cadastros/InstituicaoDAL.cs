@@ -46,10 +46,7 @@ namespace projeto_mvc.Data.DAL.Cadastros
             return instituicao;
         }
 
-        internal async Task EliminarInstituicaoPorIid(long? id)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }
 
