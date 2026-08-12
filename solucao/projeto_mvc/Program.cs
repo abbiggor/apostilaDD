@@ -41,7 +41,7 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<IESContext>();
-        IESDbInitializer.Initialize(context);
+        //IESDbInitializer.Initialize(context);
     }
     catch (Exception ex)
     {
