@@ -14,6 +14,7 @@ namespace projeto_mvc.Data
         public DbSet<Modelo.Cadastros.Departamento> Departamentos { get; set; }
         public DbSet<Modelo.Cadastros.Curso> Cursos { get; set; }
         public DbSet<Modelo.Cadastros.Disciplina> Disciplinas { get; set; }
+        public DbSet<Modelo.Discente.Academico> Academicos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

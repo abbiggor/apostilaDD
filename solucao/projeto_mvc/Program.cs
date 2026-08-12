@@ -1,4 +1,5 @@
 using projeto_mvc.Data;
+using Modelo.Discente;
 using Microsoft.EntityFrameworkCore;
 
 
