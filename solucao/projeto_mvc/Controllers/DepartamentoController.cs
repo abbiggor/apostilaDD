@@ -1,11 +1,10 @@
 ﻿using projeto_mvc.Data;
-using projeto_mvc.Models;
+using projeto_mvc.Data.DAL.Cadastros;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Modelo.Cadastros;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace projeto_mvc.Controllers
@@ -14,35 +13,36 @@ namespace projeto_mvc.Controllers
     public class DepartamentoController : Controller
     {
         private readonly IESContext _context;
+        private readonly DepartamentoDAL departamentoDAL;
+        private readonly InstituicaoDAL instituicaoDAL;
         public DepartamentoController(IESContext context)
         {
-            this._context = context;
+            _context = context;
+            instituicaoDAL = new InstituicaoDAL(context);
+            departamentoDAL = new DepartamentoDAL(context);
         }
 
-        // View e Action INDEX //////////////////////////////////////////////////////////////////////////
+
+
+        // View e Action INDEX -------------------------------------------------------------------------------------
         public async Task<IActionResult> Index()
         {
-            //return View(await _context.Departamentos.OrderBy(c => c.Nome).ToListAsync());
-            // retorno abaixo atualizado para carregamento forçado da propriedade de navegação Instituicao, para evitar o erro de carregamento lazy loading
-            return View(await _context.Departamentos.Include(i => i.Instituicao).OrderBy(c => c.Nome).ToListAsync());
+            return View(await departamentoDAL.ObterDepartamentosClassificadosPorNome().ToListAsync());
         }
 
+        //----------------------------------------------------------------------------------------------------------
 
-
-        /////////////////////////////////////////////////////////////////////////////////////////////////
-
-        // Action CREATE ///////////////////////////////////////////////////////////////////////////////
+        // Action CREATE --------------------------------------------------------------------------------------------
         // Método GET 
         public IActionResult Create()
         {
-            var instituicoes = _context.Instituicoes.OrderBy(i => i.Nome).ToList();
-            instituicoes.Insert(0, new Instituicao()
+            var instituicoes = instituicaoDAL.ObterInstituicoesClassificadasPorNome().ToList();
+            instituicoes.Insert(0, new Instituicao() // popula dropdownlist
             {
                 InstituicaoID = 0,
                 Nome = "Selecione a instituição"
             });
             ViewBag.Instituicoes = instituicoes;
-            // listagem acima implementada para popular o dropdown list de instituições na view Create
             return View();
         }
         // Método POST
@@ -54,8 +54,7 @@ namespace projeto_mvc.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _context.Add(departamento);
-                    await _context.SaveChangesAsync();
+                    await departamentoDAL.GravarDepartamento(departamento);
                     return RedirectToAction(nameof(Index));
                 }
             }
@@ -64,35 +63,29 @@ namespace projeto_mvc.Controllers
                 ModelState.AddModelError("", "Não foi possível realizar a inserção dos dados.");
             }
             // listagem abaixo implementada para repopular o dropdown list de instituições na view Create, caso ocorra algum erro de validação
-            var instituicoes = _context.Instituicoes.OrderBy(i => i.Nome).ToList();
-            instituicoes.Insert(0, new Instituicao()
-            {
-                InstituicaoID = 0,
-                Nome = "Selecione a instituição"
-            });
-            ViewBag.Instituicoes = instituicoes;
+            //var instituicoes = _context.Instituicoes.OrderBy(i => i.Nome).ToList();
+            //instituicoes.Insert(0, new Instituicao()
+            //{
+            //    InstituicaoID = 0,
+            //    Nome = "Selecione a instituição"
+            //});
+            //ViewBag.Instituicoes = instituicoes;
 
             return View(departamento);
         }
-        ////////////////////////////////////////////////////////////////////////////////////////////
+        //----------------------------------------------------------------------------------------------------------
 
-        //	Action EDIT ////////////////////////////////////////////////////////////////////////////
+        //	Action EDIT --------------------------------------------------------------------------------------------
         //	Método GET 
         public async Task<IActionResult> Edit(long? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var departamento = await _context.Departamentos.SingleOrDefaultAsync(m => m.DepartamentoID == id);
-            if (departamento == null)
-            {
-                return NotFound();
-            }
+            ViewResult visaoDepartamento = (ViewResult)await ObterViewDepartamentoPorID(id);
+            Departamento departamento = (Departamento)visaoDepartamento.Model;
 
-            ViewBag.Instituicoes = new SelectList(_context.Instituicoes.OrderBy(b => b.Nome), "InstituicaoID", "Nome", departamento.InstituicaoID);
+
+            ViewBag.Instituicoes = new SelectList(instituicaoDAL.ObterInstituicoesClassificadasPorNome(), "InstituicaoID", "Nome", departamento.InstituicaoID);
             // listagem acima implementada para popular o dropdown list de instituições na view Edit, com a instituição do departamento selecionada
-            return View(departamento);
+            return visaoDepartamento;
         }
         // Método POST
         [HttpPost]
@@ -107,12 +100,11 @@ namespace projeto_mvc.Controllers
             {
                 try
                 {
-                    _context.Update(departamento);
-                    await _context.SaveChangesAsync();
+                    await departamentoDAL.GravarDepartamento(departamento);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DepartamentoExists(departamento.DepartamentoID))
+                    if (! await DepartamentoExists(departamento.DepartamentoID))
                     {
                         return NotFound();
                     }
@@ -124,49 +116,35 @@ namespace projeto_mvc.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            ViewBag.Instituicoes = new SelectList(_context.Instituicoes.OrderBy(b => b.Nome), "InstituicaoID", "Nome", departamento.InstituicaoID);
+            ViewBag.Instituicoes = new SelectList(instituicaoDAL.ObterInstituicoesClassificadasPorNome(), "InstituicaoID", "Nome", departamento.InstituicaoID);
             return View(departamento);
         }
-        private bool DepartamentoExists(long? id)
+        private async Task<bool> DepartamentoExists(long? id)
         {
-            return _context.Departamentos.Any(e => e.DepartamentoID == id);
+            return await departamentoDAL.ObterDepartamentoPorID((long)id) != null;
         }
-        //////////////////////////////////////////////////////////////////////////////////////////////
 
-        // Action DETAILS //////////////////////////////////////////////////////////////////////////
+        //----------------------------------------------------------------------------------------------------------
+
+        // Action DETAILS ------------------------------------------------------------------------------------------
         // Método GET 
         public async Task<IActionResult> Details(long? id)
         {
-            if (id == null)
             {
-                return NotFound();
+                return await ObterViewDepartamentoPorID(id);
             }
-            var departamento = await _context.Departamentos.SingleOrDefaultAsync(m => m.DepartamentoID == id);
-            _context.Instituicoes.Where(i => departamento.InstituicaoID == i.InstituicaoID).Load();
-            if (departamento == null)
-            {
-                return NotFound();
-            }
-            return View(departamento);
+
 
         }
-        //////////////////////////////////////////////////////////////////////////////////////////////
+        //----------------------------------------------------------------------------------------------------------
 
-        // Action DELETE ////////////////////////////////////////////////////////////////////////////
+        // Action DELETE -------------------------------------------------------------------------------------------
         // Método GET 
         public async Task<IActionResult> Delete(long? id)
         {
-            if (id == null)
             {
-                return NotFound();
+                return await ObterViewDepartamentoPorID(id);
             }
-            var departamento = await _context.Departamentos.SingleOrDefaultAsync(m => m.DepartamentoID == id);
-            _context.Instituicoes.Where(i => departamento.InstituicaoID == i.InstituicaoID).Load();
-            if (departamento == null)
-            {
-                return NotFound();
-            }
-            return View(departamento);
         }
 
         // Método POST - action DELETE
@@ -174,13 +152,27 @@ namespace projeto_mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long? id)
         {
-            var departamento = await _context.Departamentos.SingleOrDefaultAsync(m => m.DepartamentoID == id);
-            _context.Departamentos.Remove(departamento);
+            var departamento = await departamentoDAL.EliminarDepartamentoPorID((long)id);
             TempData["Message"] = "Departamento	" + departamento.Nome.ToUpper() + "	foi	removido";
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
 
         }
-        //////////////////////////////////////////////////////////////////////////////////////////////
+         //----------------------------------------------------------------------------------------------------------
+
+        // Método para buscar view por ID do departamento -----------------------------------------------------------
+        private async Task<IActionResult> ObterViewDepartamentoPorID(long? id) // método privado que retorna uma Task<IActionResult> e recebe um parâmetro "id" do tipo long? e ser[a utilizado nos métodos GET das actions para obter a view de uma instituição específica, reduzindo redundância de código
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var departamento = await departamentoDAL.ObterDepartamentoPorID((long)id);
+            if (departamento == null)
+            {
+                return NotFound();
+            }
+            return View(departamento);
+        }
+        //----------------------------------------------------------------------------------------------------------
     }
 }

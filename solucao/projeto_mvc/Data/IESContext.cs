@@ -9,7 +9,7 @@ namespace projeto_mvc.Data
         }
 
         //mapeamento da classe para o modelo relacional
-        public DbSet<Instituicao> Instituicoes { get; set; }
-        public DbSet<Departamento> Departamentos { get; set; }
+        public DbSet<Modelo.Cadastros.Instituicao> Instituicoes { get; set; }
+        public DbSet<Modelo.Cadastros.Departamento> Departamentos { get; set; }
     }
 }
