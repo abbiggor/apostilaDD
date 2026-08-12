@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="Modelo/Modelo.csproj" Id="c630a090-27df-4828-8db2-223dae65249c" />
   <Project Path="projeto_mvc/projeto_mvc.csproj" Id="4e98d2a6-30bd-4aad-8141-f3aeb3fb28d1" />
 </Solution>
