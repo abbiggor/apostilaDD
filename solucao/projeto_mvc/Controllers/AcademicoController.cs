@@ -50,12 +50,13 @@ namespace projeto_mvc.Controllers
         {
             return await ObterVisaoAcademicoPorId(id);
         }
-
-        // Create --------------------------------------------------------------------------------------------------
         public IActionResult Create()
         {
             return View();
         }
+
+        // Create --------------------------------------------------------------------------------------------------
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Nome,RegistroAcademico,Nascimento")] Academico academico)
