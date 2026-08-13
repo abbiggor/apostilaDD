@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Modelo.Cadastros;
 using projeto_mvc.Models;
+using projeto_mvc.Models.Infra;
 namespace projeto_mvc.Data
 {
-    public class IESContext : DbContext // definição da classe IESContext que herda de DbContext, que é a classe base para trabalhar com o Entity Framework Core
+    //public class IESContext : DbContext // definição da classe IESContext que herda de DbContext, que é a classe base para trabalhar com o Entity Framework Core
+    public class IESContext : IdentityDbContext<UsuarioDaAplicacao> // atualização da extenção da classe para o uso do IdentityUser
     {
         public IESContext(DbContextOptions<IESContext> options) : base(options) // construtor da classe IESContext que recebe as opções de configuração do DbContext
         {

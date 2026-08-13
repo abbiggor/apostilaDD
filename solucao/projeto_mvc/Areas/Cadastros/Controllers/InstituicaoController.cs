@@ -1,9 +1,10 @@
-﻿using Modelo.Cadastros;
-using projeto_mvc.Data;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
+using Modelo.Cadastros;
+using projeto_mvc.Data;
 using projeto_mvc.Data.DAL.Cadastros;
+using System.Linq;
 
 
 
@@ -11,6 +12,7 @@ using projeto_mvc.Data.DAL.Cadastros;
 namespace projeto_mvc.Areas.Cadastros.Controllers // definição do namespace "projeto_mvc.Controllers" que agrupa as classes relacionadas aos controladores da aplicação
 {
     [Area("Cadastros")]
+    [Authorize]
     public class InstituicaoController : Controller // criação da classe InstituicaoController que herda de Controller
     {
         private readonly IESContext _context; // definição da variável "_context" privada do tipo IESContext para acessar o banco de dados (o "_" no início do nome da variável é uma convenção para indicar que é um campo privado)

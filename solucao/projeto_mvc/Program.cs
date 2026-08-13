@@ -1,9 +1,19 @@
-using projeto_mvc.Data;
-using Modelo.Discente;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Modelo.Discente;
+using projeto_mvc.Data;
+using projeto_mvc.Models.Infra;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddIdentity<UsuarioDaAplicacao, IdentityRole>().AddEntityFrameworkStores<IESContext>().AddDefaultTokenProviders();
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Infra/Acessar";
+    options.AccessDeniedPath = "/Infra/AcessoNegado";
+});
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -34,6 +44,9 @@ app.MapControllerRoute(
     name: "areaRoute",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
     //.WithStaticAssets();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 // o bloco seguinte cria um escopo de serviço que inicializa o banco de dados caso ainda não exista
 using (var scope = app.Services.CreateScope())

@@ -1,9 +1,10 @@
-﻿using projeto_mvc.Data;
-using projeto_mvc.Data.DAL.Cadastros;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Modelo.Cadastros;
+using projeto_mvc.Data;
+using projeto_mvc.Data.DAL.Cadastros;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,6 +12,7 @@ namespace projeto_mvc.Areas.Cadastros.Controllers
 
 {
     [Area("Cadastros")]
+    [Authorize]
     public class DepartamentoController : Controller
     {
         private readonly IESContext _context;
