@@ -21,12 +21,8 @@
 	}
 
 	<div class="card-footer bg-info text-center text-white">
-		<a asp-action="Index" class="btn	btn-danger">
-			Retornar à listagem de Departamentos
-		</a>
-		<button type="button" class="btn btn-dark" data-toggle="modal" data-target="#modalConfirmationDelete">
-			Remover	Departamento
-		</button>
+		<a asp-action="Index" class="btn btn-dark">Retornar à lista</a>
+		<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalConfirmationDelete">Remover Departamento</button>
 	</div>
 </div>
 <div class="modal fade" id="modalConfirmationDelete" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
@@ -43,7 +39,7 @@
 				<div class="modal-footer">
 					<form asp-action="Delete">
 						<input type="hidden" asp-for="DepartamentoID"/>
-						<input type="submit" value="Excluir departamento" class="btn btn-primary"/>
+						<input type="submit" value="Excluir departamento" class="btn btn-danger"/>
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
 					</form>
 				</div>

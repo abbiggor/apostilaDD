@@ -22,12 +22,9 @@
         await Html.RenderPartialAsync("~/Views/Academico/_PartialDetailsContentCard.cshtml", Model);	
     }
 
-    <div class="card-footer	bg-info	text-center	text-white">
-        <a asp-action="Edit" class="btn	btn-warning" asp-route-id="@Model.AcademicoID">
-            Alterar
-        </a>	|
-        <a asp-action="Index" class="btn btn-warning">
-            Retornar à listagem
-        </a>
-    </div>
+	<div class="card-footer	bg-info	text-center	text-white">
+		<a asp-action="Index" class="btn btn-light">Retornar à lista</a> |
+		<a asp-action="Edit" class="btn	btn-warning" asp-route-id="@Model.AcademicoID">Alterar acadêmico</a>
+	</div>
+
 </div>
