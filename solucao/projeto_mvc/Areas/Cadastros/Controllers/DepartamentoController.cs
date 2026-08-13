@@ -7,9 +7,10 @@ using Modelo.Cadastros;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace projeto_mvc.Controllers
+namespace projeto_mvc.Areas.Cadastros.Controllers
 
 {
+    [Area("Cadastros")]
     public class DepartamentoController : Controller
     {
         private readonly IESContext _context;

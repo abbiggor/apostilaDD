@@ -6,8 +6,9 @@ using projeto_mvc.Data.DAL.Discente;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
-namespace projeto_mvc.Controllers
+namespace projeto_mvc.Areas.Discente.Controllers
 {
+    [Area("Discente")]
     public class AcademicoController : Controller
     {
         private readonly IESContext _context;

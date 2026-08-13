@@ -31,9 +31,9 @@ app.UseAuthorization();
 app.MapStaticAssets();
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    name: "areaRoute",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+    //.WithStaticAssets();
 
 // o bloco seguinte cria um escopo de serviço que inicializa o banco de dados caso ainda não exista
 using (var scope = app.Services.CreateScope())

@@ -6,8 +6,11 @@ using System.Linq;
 using projeto_mvc.Data.DAL.Cadastros;
 
 
-namespace projeto_mvc.Controllers // definição do namespace "projeto_mvc.Controllers" que agrupa as classes relacionadas aos controladores da aplicação
+
+
+namespace projeto_mvc.Areas.Cadastros.Controllers // definição do namespace "projeto_mvc.Controllers" que agrupa as classes relacionadas aos controladores da aplicação
 {
+    [Area("Cadastros")]
     public class InstituicaoController : Controller // criação da classe InstituicaoController que herda de Controller
     {
         private readonly IESContext _context; // definição da variável "_context" privada do tipo IESContext para acessar o banco de dados (o "_" no início do nome da variável é uma convenção para indicar que é um campo privado)

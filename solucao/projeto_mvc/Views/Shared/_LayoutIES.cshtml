@@ -41,31 +41,25 @@
 	<div class="row">
 
 		<div class="col-2.5">
-			<nav class="nav	flex-column">
-				<a class="nav-item	nav-link" asp-controller="Instituicao"
-					asp-action="Index">
-					<img src="~/images/university.png" width="30" height="30" alt="">
-					Instituições
-				</a>
-
-				<a class="nav-item	nav-link" asp-controller="Departamento"
-					asp-action="Index">
-					<img src="~/images/department.png" width="30" height="30" alt="">
-					Departamentos
-				</a>
-			</nav>
-
-			<a class="nav-item	nav-link" asp-controller="Academico" asp-action="Index">
-				<img src="~/images/academic.png" width="30" height="30" alt="">
-				Acadêmicos
-			</a>
+			<nav class="nav	flex-column	bg-transparent" style="margin-left:40px;">
+				<div class="row">
+					<a class="nav-item	nav-link" asp-area="Cadastros" asp-controller="Instituicao" asp-action="Index">
+						<img src="~/images/university.png" width="30" height="30" alt="">Instituições</a>
+				</div>
+				<div class="row">
+					<a class="nav-item	nav-link" asp-area="Cadastros" asp-controller="Departamento" asp-action="Index">
+						<img src="~/images/department.png" width="30" height="30" alt="">Departamentos</a>
+				</div>
+				<div class="row">
+					<a class="nav-item	nav-link" asp-area="Discente" asp-controller="Academico" asp-action="Index">
+						<img src="~/images/academic.png" width="30" height="30" alt="">Acadêmicos</a>
+				</div>
+			</nav>	
 		</div>
-
 		<div class="col-9">
 			@RenderBody()
 		</div>
-	</div>
-		
+	</div>	
 
 </div>
 	<nav class="navbar	fixed-bottom" style="background-color:	#e3f2fd;	margin-top:20px;">
@@ -73,9 +67,6 @@
 			Everton	Coimbra	de	Araújo
 		</a>
 	</nav>
-
-
-	
 
 	<environment include="Development">
 		<script	src="~/lib/jquery/jquery.slim.min.js"></script>
