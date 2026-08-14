@@ -34,19 +34,34 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// serve static files (wwwroot)
+app.UseStaticFiles();
+
 app.UseRouting();
 
+// authentication must run before authorization
+app.UseAuthentication();
 app.UseAuthorization();
 
+// static assets mapping (project-specific)
 app.MapStaticAssets();
 
+// area route first
 app.MapControllerRoute(
     name: "areaRoute",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-    //.WithStaticAssets();
 
-app.UseAuthentication();
-app.UseAuthorization();
+//app.UseAuthentication();
+//app.UseAuthorization();
+
+
+
+
+// rota padrão
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 // o bloco seguinte cria um escopo de serviço que inicializa o banco de dados caso ainda não exista
 using (var scope = app.Services.CreateScope())

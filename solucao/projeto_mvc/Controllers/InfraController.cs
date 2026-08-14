@@ -58,13 +58,13 @@ namespace projeto_mvc.Controllers
         //    return View(model);
         //}
 
-        //[HttpGet]
-        //[AllowAnonymous]
-        //public IActionResult RegistrarNovoUsuario(string returnUrl = null)
-        //{
-        //    ViewData["ReturnUrl"] = returnUrl;
-        //    return View();
-        //}
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult RegistrarNovoUsuario(string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            return View();
+        }
 
         //[HttpPost]
         //[AllowAnonymous]
