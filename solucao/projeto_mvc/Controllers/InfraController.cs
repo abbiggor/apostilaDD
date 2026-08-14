@@ -60,8 +60,8 @@ namespace projeto_mvc.Controllers
                 }
                 ModelState.AddModelError(string.Empty, "Falha na tentativa de login.");
 
-                return View(model);
             }
+            return View(model);
         }
         // ------------------------------------------------------------------------------------------------------
 
