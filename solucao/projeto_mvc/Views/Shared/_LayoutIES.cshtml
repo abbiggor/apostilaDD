@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.AspNetCore.Identity.SignInManager<projeto_mvc.Models.Infra.UsuarioDaAplicacao > SignInManager
+@inject Microsoft.AspNetCore.Identity.UserManager<projeto_mvc.Models.Infra.UsuarioDaAplicacao > UserManager
+
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -36,6 +40,22 @@
 		</div>
 		</nav>
 
+	<div class="row" style="text-align:right;">
+		<div class="col-6"></div>
+		<div class="col-6">
+			@if (SignInManager.IsSignedIn(User))
+			{
+				<div>Olá @UserManager.GetUserName(User), seja bem-vindo(a) / @Html.ActionLink("Logout", "Sair", "Infra", new { area = "" })</div>
+			}
+			else
+			{
+				<a class="nav-item	nav-link" asp-area="" asp-controller="Infra" asp-action="Acessar">
+					Informar usuário/senha	para acessar
+				</a>
+			}
+		</div>
+	</div>
+
 
 <div class="container" style="margin-top:20px;">
 	<div class="row">
@@ -54,6 +74,8 @@
 					<a class="nav-item	nav-link" asp-area="Discente" asp-controller="Academico" asp-action="Index">
 						<img src="~/images/academic.png" width="30" height="30" alt="">Acadêmicos</a>
 				</div>
+
+
 			</nav>	
 		</div>
 		<div class="col-9">
@@ -61,11 +83,13 @@
 		</div>
 	</div>	
 
+		
+
+
+
 </div>
 	<nav class="navbar	fixed-bottom" style="background-color:	#e3f2fd;	margin-top:20px;">
-		<a class="navbar-brand" href="#">
-			Everton	Coimbra	de	Araújo
-		</a>
+		<a class="navbar-brand" href="#">XXXXX XX XXXXXXXXXXX</a>
 	</nav>
 
 	<environment include="Development">
