@@ -35,28 +35,19 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// serve static files (wwwroot)
-app.UseStaticFiles();
-
 app.UseRouting();
 
-// authentication must run before authorization
+// Autenticação e autorização devem ser chamadas antes de mapear os controllers
 app.UseAuthentication();
 app.UseAuthorization();
 
 // static assets mapping (project-specific)
 app.MapStaticAssets();
 
-// area route first
+// rota de área
 app.MapControllerRoute(
     name: "areaRoute",
     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-
-//app.UseAuthentication();
-//app.UseAuthorization();
-
-
-
 
 // rota padrão
 app.MapControllerRoute(

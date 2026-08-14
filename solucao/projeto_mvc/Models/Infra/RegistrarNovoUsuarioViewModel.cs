@@ -17,7 +17,7 @@ namespace projeto_mvc.Models.Infra
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirmar senha")]
-        [Compare("Password", ErrorMessage = "Os valores informados para SENHA e CONFIRMAÇÃO não são iguais.")]
+        [Compare("Password", ErrorMessage = "As senhas não correspondem")]
         public string ConfirmPassword { get; set; }
     }
 }
