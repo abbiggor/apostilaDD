@@ -29,6 +29,8 @@ namespace projeto_mvc.Controllers
 
         // actions ----------------------------------------------------------------------------------
 
+        // action Acessar -----------------------------------------------------------------------------------------
+        // método GET
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> Acessar(string returnUrl = null)
@@ -41,8 +43,30 @@ namespace projeto_mvc.Controllers
             return View();
         }
 
-      
+        // método POST
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Acessar(AcessarViewModel model, string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Senha, model.LembrarDeMim, lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("Usuário Autenticado");
+                    return RedirectToLocal(returnUrl);
+                }
+                ModelState.AddModelError(string.Empty, "Falha na tentativa de login.");
 
+                return View(model);
+            }
+        }
+        // ------------------------------------------------------------------------------------------------------
+
+        // action RegistrarNovoUsuario ---------------------------------------------------------------------------
+        // métpdo GET
         [HttpGet]
         [AllowAnonymous]
         public IActionResult RegistrarNovoUsuario(string returnUrl = null)
@@ -51,6 +75,7 @@ namespace projeto_mvc.Controllers
             return View();
         }
 
+        //método POST
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -76,6 +101,16 @@ namespace projeto_mvc.Controllers
 
             return View(model);
         }
+        //----------------------------------------------------------------------------------------------------------------------
+
+        // action Sair -------------------------------------------------------------------------------------------
+        [HttpGet]
+        public async Task<IActionResult> Sair()
+        {
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation("Usuário realizou logout");
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
 
 
 
@@ -99,6 +134,8 @@ namespace projeto_mvc.Controllers
 
             }
         }
+
+        
 
     }
 }
