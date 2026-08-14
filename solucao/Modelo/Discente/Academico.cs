@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text;
+using Microsoft.AspNetCore.Http;
+
 
 namespace Modelo.Discente
 {
@@ -24,6 +27,14 @@ namespace Modelo.Discente
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}")]
         [Required]
         public DateTime? Nascimento { get; set; }
+
+
+        // implementação de uploads
+        public string FotoMimeType { get; set; }
+        public byte[] Foto { get; set; }
+        [NotMapped]
+        public IFormFile FormFile { get; set; }
+
     }
 
 }
