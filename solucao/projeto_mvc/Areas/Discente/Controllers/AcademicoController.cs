@@ -83,7 +83,7 @@ namespace projeto_mvc.Areas.Discente.Controllers
         // Edit ----------------------------------------------------------------------------------------------------
         [HttpPost]
             [ValidateAntiForgeryToken]
-            public async Task<IActionResult> Edit(long? id, [Bind("AcademicoID,Nome,RegistroAcademico,Nascimento")] Academico academico)
+            public async Task<IActionResult> Edit(long? id, [Bind("AcademicoID,Nome,RegistroAcademico,Nascimento")] Academico academico, IFormFile foto)
             {
                 if (id != academico.AcademicoID)
                 {
@@ -93,7 +93,12 @@ namespace projeto_mvc.Areas.Discente.Controllers
                 {
                     try
                     {
-                        await academicoDAL.GravarAcademico(academico);
+                        var stream = new MemoryStream();
+                        await foto.CopyToAsync(stream);
+                        academico.Foto = stream.ToArray();
+                        academico.FotoMimeType = foto.ContentType;
+
+                    await academicoDAL.GravarAcademico(academico);
                     }
                     catch (DbUpdateConcurrencyException)
                     {
