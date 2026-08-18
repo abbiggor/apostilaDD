@@ -7,6 +7,7 @@ using System.Text;
 using Microsoft.AspNetCore.Http;
 
 
+
 namespace Modelo.Discente
 {
     public class Academico
@@ -30,10 +31,11 @@ namespace Modelo.Discente
 
 
         // implementação de uploads
-        public string FotoMimeType { get; set; }
-        public byte[] Foto { get; set; }
+        public string? FotoMimeType { get; set; }
+        public byte[]? Foto { get; set; }
+
         [NotMapped]
-        public IFormFile FormFile { get; set; }
+        public IFormFile? FormFile { get; set; }
 
     }
 

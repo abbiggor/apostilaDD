@@ -61,12 +61,16 @@ namespace projeto_mvc.Areas.Discente.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nome,RegistroAcademico,Nascimento")] Academico academico)
+        public async Task<IActionResult> Create([Bind("Nome,RegistroAcademico,Nascimento")] Academico academico, IFormFile foto)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
+                    var stream = new MemoryStream();
+                    await foto.CopyToAsync(stream);
+                    academico.Foto = stream.ToArray();
+
                     await academicoDAL.GravarAcademico(academico);
                     return RedirectToAction(nameof(Index));
                 }
