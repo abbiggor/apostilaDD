@@ -51,12 +51,13 @@ namespace projeto_mvc.Areas.Discente.Controllers
         {
             return await ObterVisaoAcademicoPorId(id);
         }
+
+
+        // Create --------------------------------------------------------------------------------------------------
         public IActionResult Create()
         {
             return View();
         }
-
-        // Create --------------------------------------------------------------------------------------------------
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -74,7 +75,7 @@ namespace projeto_mvc.Areas.Discente.Controllers
             {
                 ModelState.AddModelError("", "Não foi possível inserir os dados.");
 
-                                                }
+            }
             return View(academico);
 
 
@@ -82,53 +83,65 @@ namespace projeto_mvc.Areas.Discente.Controllers
 
         // Edit ----------------------------------------------------------------------------------------------------
         [HttpPost]
-            [ValidateAntiForgeryToken]
-            public async Task<IActionResult> Edit(long? id, [Bind("AcademicoID,Nome,RegistroAcademico,Nascimento")] Academico academico, IFormFile foto)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(long? id, [Bind("AcademicoID,Nome,RegistroAcademico,Nascimento")] Academico academico, IFormFile foto)
+        {
+            if (id != academico.AcademicoID)
             {
-                if (id != academico.AcademicoID)
-                {
-                    return NotFound();
-                }
-                if (ModelState.IsValid)
-                {
-                    try
-                    {
-                        var stream = new MemoryStream();
-                        await foto.CopyToAsync(stream);
-                        academico.Foto = stream.ToArray();
-                        academico.FotoMimeType = foto.ContentType;
-
-                    await academicoDAL.GravarAcademico(academico);
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!await AcademicoExists(academico.AcademicoID))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-                    return RedirectToAction(nameof(Index));
-                }
-                return View(academico);
+                return NotFound();
             }
-
-            // Delete ----------------------------------------------------------------------------------------------
-
-            [HttpPost, ActionName("Delete")]
-            [ValidateAntiForgeryToken]
-            public async Task<IActionResult> DeleteConfirmed(long? id)
+            if (ModelState.IsValid)
             {
-                var academico = await academicoDAL.EliminarAcademicoPorId((long)id);
-                TempData["Message"] = "Acadêmico " + academico.Nome.ToUpper() + " foi removida";
-                return RedirectToAction(nameof(Index));
-            } 
-        
+                try
+                {
+                    var stream = new MemoryStream();
+                    await foto.CopyToAsync(stream);
+                    academico.Foto = stream.ToArray();
+                    academico.FotoMimeType = foto.ContentType;
 
-            private async Task<bool> AcademicoExists(long? id)
+                await academicoDAL.GravarAcademico(academico);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!await AcademicoExists(academico.AcademicoID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(academico);
+        }
+
+        // Delete ----------------------------------------------------------------------------------------------
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(long? id)
+        {
+            var academico = await academicoDAL.EliminarAcademicoPorId((long)id);
+            TempData["Message"] = "Acadêmico " + academico.Nome.ToUpper() + " foi removida";
+            return RedirectToAction(nameof(Index));
+        }
+        // -----------------------------------------------------------------------------------------------------
+
+        // GetFoto ---------------------------------------------------------------------------------------------
+        public async Task<FileContentResult> GetFoto(long id)
+        {
+            Academico academico = await academicoDAL.ObterAcademicoPorId(id);
+            if (academico != null)
+            {
+                return File(academico.Foto, academico.FotoMimeType);
+            }
+            return null;
+        }
+        // -----------------------------------------------------------------------------------------------------
+
+        private async Task<bool> AcademicoExists(long? id)
         {
             return await academicoDAL.ObterAcademicoPorId((long)id) != null;
         }

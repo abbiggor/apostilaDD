@@ -1,6 +1,6 @@
 ﻿@model	IEnumerable<Modelo.Discente.Academico>
 @{
-				Layout	=	"_LayoutIES";
+	Layout	=	"_LayoutIES";
 }
 @section	Styles	{
 	<environment	include="Development">
@@ -15,7 +15,7 @@
 
 @if	(@TempData["Message"]	!=	null)
 {
-	<div	class="alert	alert-success" role="alert">
+	<div class="alert alert-success" role="alert">
 		@TempData["Message"]
 	</div>
 	}
