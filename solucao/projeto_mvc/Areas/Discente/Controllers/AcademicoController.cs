@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Modelo.Discente;
 using projeto_mvc.Data;
 using projeto_mvc.Data.DAL.Discente;
@@ -13,9 +14,12 @@ namespace projeto_mvc.Areas.Discente.Controllers
     {
         private readonly IESContext _context;
         private readonly AcademicoDAL academicoDAL;
-        public AcademicoController(IESContext context)
+        private IWebHostEnvironment _env; // objeto para implementação da action de download
+
+        public AcademicoController(IESContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
             academicoDAL = new AcademicoDAL(context);
         }
 
@@ -63,14 +67,15 @@ namespace projeto_mvc.Areas.Discente.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Nome,RegistroAcademico,Nascimento")] Academico academico, IFormFile foto)
         {
+            System.Diagnostics.Debug.WriteLine("iniciando método POST");
             try
             {
                 if (ModelState.IsValid)
+                    
                 {
                     var stream = new MemoryStream();
                     await foto.CopyToAsync(stream);
                     academico.Foto = stream.ToArray();
-
                     await academicoDAL.GravarAcademico(academico);
                     return RedirectToAction(nameof(Index));
                 }
@@ -145,6 +150,22 @@ namespace projeto_mvc.Areas.Discente.Controllers
         }
         // -----------------------------------------------------------------------------------------------------
 
+        // DownloadPhoto ---------------------------------------------------------------------------------------
+        public async Task<FileResult> DownloadFoto(long id)
+        {
+            Academico academico = await academicoDAL.ObterAcademicoPorId(id);
+            string nomeArquivo = "Foto" + academico.AcademicoID.ToString().Trim() + ".jpg";
+            FileStream fileStream = new FileStream(System.IO.Path.Combine(_env.WebRootPath, nomeArquivo), FileMode.Create, FileAccess.Write);
+            fileStream.Write(academico.Foto, 0, academico.Foto.Length);
+            fileStream.Close();
+            IFileProvider provider = new PhysicalFileProvider(_env.WebRootPath);
+            IFileInfo fileInfo = provider.GetFileInfo(nomeArquivo);
+            var readStream = fileInfo.CreateReadStream();
+            return File(readStream, academico.FotoMimeType, nomeArquivo);
+
+
+        }
+        // -----------------------------------------------------------------------------------------------------
         private async Task<bool> AcademicoExists(long? id)
         {
             return await academicoDAL.ObterAcademicoPorId((long)id) != null;

@@ -7,7 +7,7 @@
 		Registrando	um	novo	acadêmico	
 	</div>
 	<div class="card-body">
-		<form enctype="multipart/form-data" asp-action="Create">>
+		<form asp-controller="Academico" asp-action="Create" method="post" autocomplete="off" enctype="multipart/form-data">
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 			<div class="form-group">
 				<label asp-for="RegistroAcademico" class="control-label"></label>
@@ -30,17 +30,10 @@
 				<input type="file" name="foto" class="form-control" />
 			</div>
 
-
-
-			
-
-
-
 			<div class="form-group text-center h3">
 				<a asp-action="Index" class="btn btn-light">Retornar à lista</a>
 				<input type="submit" value="Registrar novo acadêmico" class="btn btn-info" />
 			</div>
-
 
 		</form>
 	</div>
