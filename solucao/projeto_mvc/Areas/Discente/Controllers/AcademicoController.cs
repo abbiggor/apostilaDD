@@ -93,22 +93,29 @@ namespace projeto_mvc.Areas.Discente.Controllers
         // Edit ----------------------------------------------------------------------------------------------------
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long? id, [Bind("AcademicoID,Nome,RegistroAcademico,Nascimento")] Academico academico, IFormFile foto)
+        public async Task<IActionResult> Edit(long? id, [Bind("AcademicoID,Nome,RegistroAcademico,Nascimento")] Academico academico, IFormFile foto, string chkRemoverFoto)
         {
             if (id != academico.AcademicoID)
             {
                 return NotFound();
             }
+
             if (ModelState.IsValid)
             {
                 try
                 {
                     var stream = new MemoryStream();
-                    await foto.CopyToAsync(stream);
-                    academico.Foto = stream.ToArray();
-                    academico.FotoMimeType = foto.ContentType;
-
-                await academicoDAL.GravarAcademico(academico);
+                    if (chkRemoverFoto != null)
+                    {
+                        academico.Foto = null;
+                    }
+                    else
+                    {
+                        await foto.CopyToAsync(stream);
+                        academico.Foto = stream.ToArray();
+                        academico.FotoMimeType = foto.ContentType;
+                    }
+                    await academicoDAL.GravarAcademico(academico);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -122,13 +129,14 @@ namespace projeto_mvc.Areas.Discente.Controllers
                     }
                 }
                 return RedirectToAction(nameof(Index));
+
             }
             return View(academico);
         }
 
-        // Delete ----------------------------------------------------------------------------------------------
+            // Delete ----------------------------------------------------------------------------------------------
 
-        [HttpPost, ActionName("Delete")]
+            [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long? id)
         {
