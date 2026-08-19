@@ -1,0 +1,35 @@
+@model Modelo.Cadastros.Instituicao
+
+@{
+    Layout = "_LayoutIES";
+}
+
+@section Styles {
+   <environment	exclude="Development">
+	   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/font-awesome.min.css"
+			asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"	/>
+	</environment>
+}
+
+<div class="card-block">
+    <div class="card bg-secondary h1">Deletando Instituição</div>
+    @{
+        await Html.RenderPartialAsync("~/Areas/Cadastros/Views/Instituicao/_PartialDetailsContentCard.cshtml", Model);
+    }
+
+    <div class="card-footer bg-info text-center text-white">
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="InstituicaoID" />
+            <a asp-action="Index" class="btn btn-info">Retornar à lista</a>
+            <input type="submit" value="Deletar instituição" class="btn btn-danger" />
+        </form>
+    </div>
+</div>
+
+
+
+@section ScriptPage {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}

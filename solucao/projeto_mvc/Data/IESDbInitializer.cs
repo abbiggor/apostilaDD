@@ -1,6 +1,7 @@
 ﻿using projeto_mvc.Data;
 using projeto_mvc.Models;
 using System.Linq;
+using Modelo.Cadastros;
 namespace projeto_mvc.Data
 {
     public class IESDbInitializer

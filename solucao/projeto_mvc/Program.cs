@@ -1,7 +1,19 @@
-using projeto_mvc.Data;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Modelo.Discente;
+using projeto_mvc.Data;
+using projeto_mvc.Models.Infra;
+
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddIdentity<UsuarioDaAplicacao, IdentityRole>().AddEntityFrameworkStores<IESContext>().AddDefaultTokenProviders();
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Infra/Acessar";
+    options.AccessDeniedPath = "/Infra/AcessoNegado";
+});
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -21,17 +33,28 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseStatusCodePagesWithReExecute("/Home/Error/", "?statusCode={0}");
+
 app.UseHttpsRedirection();
+
 app.UseRouting();
 
+// Autenticação e autorização devem ser chamadas antes de mapear os controllers
+app.UseAuthentication();
 app.UseAuthorization();
 
+// static assets mapping (project-specific)
 app.MapStaticAssets();
 
+// rota de área
+app.MapControllerRoute(
+    name: "areaRoute",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+// rota padrão
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 // o bloco seguinte cria um escopo de serviço que inicializa o banco de dados caso ainda não exista
 using (var scope = app.Services.CreateScope())
@@ -40,12 +63,12 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<IESContext>();
-        IESDbInitializer.Initialize(context);
+        //IESDbInitializer.Initialize(context);
     }
     catch (Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "Um	erro	ocorreu	ao	popular  a   base    de  dados.");
+        logger.LogError(ex, "Um	erro ocorreu ao	popular a base de dados.");
 
     }
 }
