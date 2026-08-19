@@ -7,5 +7,18 @@
         {
             _context = context;
         }
+
+
+
+        //
+        public void Add(Modelo.Docente.Professor professor)
+        {
+            _context.Add(professor);
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
+        }
     }
 }
