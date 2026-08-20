@@ -1,4 +1,8 @@
-﻿namespace projeto_mvc.Data.DAL.Docente
+﻿using Microsoft.EntityFrameworkCore;
+using Modelo.Docente;
+
+
+namespace projeto_mvc.Data.DAL.Docente
 {
     public class ProfessorDAL
     {
@@ -8,7 +12,10 @@
             _context = context;
         }
 
-
+        public IQueryable<Professor> ObterProfessoresClassificadosPorNome()
+        {
+            return _context.Professores.OrderBy(b  => b.Nome);
+        }
 
        
     }

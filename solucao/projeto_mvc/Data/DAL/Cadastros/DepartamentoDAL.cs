@@ -14,7 +14,7 @@ namespace projeto_mvc.Data.DAL.Cadastros
         }
 
 
-        public IQueryable<Departamento> ObterDepartamentosClassificadosPorNome()          // cria método público que retorna um IQueryable de Departamentos     
+        public IQueryable<Departamento> ObterDepartamentosClassificadosPorInstituicao()          // cria método público que retorna um IQueryable de Departamentos     
         {
             return _context.Departamentos.Include(i => i.Instituicao).OrderBy(b => b.Nome);                          // retorna todas as instituições ordenadas pelo nome
         }
@@ -46,6 +46,12 @@ namespace projeto_mvc.Data.DAL.Cadastros
             _context.Departamentos.Remove(departamento);
             await _context.SaveChangesAsync();
             return departamento;
+        }
+
+        public IQueryable<Departamento> ObterDepartamentosPorInstituicao(long instituicaoID)
+        {
+            var departamentos = _context.Departamentos.Where(d => d.InstituicaoID == instituicaoID).OrderBy(d => d.Nome);
+            return departamentos;
         }
 
 

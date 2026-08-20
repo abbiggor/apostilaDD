@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Modelo.Cadastros;
 using Modelo.Docente;
+using projeto_mvc.Areas.Docente.Models;
 using projeto_mvc.Data;
 using projeto_mvc.Data.DAL.Cadastros;
 using projeto_mvc.Data.DAL.Discente;
@@ -27,6 +29,7 @@ namespace projeto_mvc.Areas.Docente.Controllers
             professorDAL = new ProfessorDAL(context);
         }
 
+        // método PrepararViewBags
         public void PrepararViewBags(List<Instituicao> instituicoes, List<Departamento> departamentos, List<Curso> cursos, List<Professor> professores)
         {
             instituicoes.Insert(0, new Instituicao() { InstituicaoID = 0, Nome = "Selecione a instituição" });
@@ -37,6 +40,55 @@ namespace projeto_mvc.Areas.Docente.Controllers
             ViewBag.Cursos = cursos;
             professores.Insert(0, new Professor() { ProfessorID = 0, Nome = "Selecione o professor" });
             ViewBag.Professores = professores;
+        }
+
+        // método AdicionarProfessor
+        [HttpGet]
+        public IActionResult AdicionarProfessor()
+        {
+            PrepararViewBags(instituicaoDAL.ObterInstituicoesClassificadasPorNome().ToList(),
+                new List<Departamento>().ToList(),
+                new List<Curso>().ToList(),
+                new List<Professor>().ToList()
+                );
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AdicionarProfessor([Bind("InstituicaoID, DepartamentoID, CursoID, ProfessorID")] AdicionarProfessorViewModel model)
+        {
+            if (model.InstituicaoID == 0 || model.DepartamentoID == 0 || model.CursoID == 0 || model.ProfessorID == 0)
+            {
+                ModelState.AddModelError("", "É preciso selecionar todos os dados");
+            }
+            else
+            {
+                cursoDAL.RegistrarProfessor((long)model.CursoID, (long)model.ProfessorID);
+                PrepararViewBags(instituicaoDAL.ObterInstituicoesClassificadasPorNome().ToList(),
+                    departamentoDAL.ObterDepartamentosPorInstituicao((long)model.InstituicaoID).ToList(),
+                    cursoDAL.ObterCursosPorDepartamento((long)model.DepartamentoID).ToList(),
+                    cursoDAL.ObterProfessoresForaDoCurso((long)model.CursoID).ToList()
+                    );
+            }
+            return View(model);
+        }
+
+        public JsonResult ObterDepartamentosPorInstituicao(long actionID)
+        {
+            var departamentos = departamentoDAL.ObterDepartamentosPorInstituicao(actionID).ToList();
+            return Json(new SelectList(departamentos, "DepartamentoID", "Nome"));
+        }
+
+        public JsonResult ObterCursosPorDepartamento(long actionID)
+        {
+            var cursos = cursoDAL.ObterCursosPorDepartamento(actionID).ToList();
+            return Json(new SelectList(cursos, "CursoID", "Nome"));
+        }
+        
+        public JsonResult ObterProfessoresForaDoCurso(long actionID)
+        {
+            var professores = cursoDAL.ObterProfessoresForaDoCurso(actionID).ToList();
+            return Json(new SelectList(professores, "ProfessorID", "Nome"));
         }
     }
 

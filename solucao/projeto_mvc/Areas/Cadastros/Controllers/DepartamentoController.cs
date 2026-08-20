@@ -30,7 +30,7 @@ namespace projeto_mvc.Areas.Cadastros.Controllers
         // View e Action INDEX -------------------------------------------------------------------------------------
         public async Task<IActionResult> Index()
         {
-            return View(await departamentoDAL.ObterDepartamentosClassificadosPorNome().ToListAsync());
+            return View(await departamentoDAL.ObterDepartamentosClassificadosPorInstituicao().ToListAsync());
         }
 
         //----------------------------------------------------------------------------------------------------------
