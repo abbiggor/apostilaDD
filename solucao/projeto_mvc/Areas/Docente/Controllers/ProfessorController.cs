@@ -1,53 +1,42 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Modelo.Cadastros;
 using Modelo.Docente;
 using projeto_mvc.Data;
 using projeto_mvc.Data.DAL.Cadastros;
+using projeto_mvc.Data.DAL.Discente;
 using projeto_mvc.Data.DAL.Docente;
-using System.Text.Json.Serialization;
 
 namespace projeto_mvc.Areas.Docente.Controllers
 {
     [Area("Docente")]
     public class ProfessorController : Controller
     {
-        private readonly ProfessorDAL _context;
 
-        public ProfessorController(ProfessorDAL context)
+        readonly IESContext _context;   
+        private readonly InstituicaoDAL instituicaoDAL;
+        private readonly DepartamentoDAL departamentoDAL;
+        private readonly CursoDAL cursoDAL;
+        private readonly ProfessorDAL professorDAL;
+
+        public ProfessorController(IESContext context)
         {
-            this._context = context;
-        }
-        public async Task<IActionResult> Index()
-        {
-            return View();
+            _context = context;
+            instituicaoDAL = new InstituicaoDAL(context);
+            departamentoDAL = new DepartamentoDAL(context);
+            cursoDAL = new CursoDAL(context);
+            professorDAL = new ProfessorDAL(context);
         }
 
-        [HttpGet]
-        public IActionResult Create()
+        public void PrepararViewBags(List<Instituicao> instituicoes, List<Departamento> departamentos, List<Curso> cursos, List<Professor> professores)
         {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nome")] Professor professor)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    _context.Add(professor);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-            }
-            catch (DbUpdateException)
-            {
-                ModelState.AddModelError("", "Não foi possível inserir os dados.");
-            }
-            return View(professor);
+            instituicoes.Insert(0, new Instituicao() { InstituicaoID = 0, Nome = "Selecione a instituição" });
+            ViewBag.Instituicoes = instituicoes;
+            departamentos.Insert(0, new Departamento() { DepartamentoID = 0, Nome = "Selecione o departamento" });
+            ViewBag.Departamentos = departamentos;
+            cursos.Insert(0, new Curso() { CursoID = 0, Nome = "Selecione o curso" });
+            ViewBag.Cursos = cursos;
+            professores.Insert(0, new Professor() { ProfessorID = 0, Nome = "Selecione o professor" });
+            ViewBag.Professores = professores;
         }
     }
 

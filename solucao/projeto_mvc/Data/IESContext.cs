@@ -21,6 +21,8 @@ namespace projeto_mvc.Data
         public DbSet<Modelo.Cadastros.Disciplina> Disciplinas { get; set; }
         public DbSet<Modelo.Discente.Academico> Academicos { get; set; }
 
+        public DbSet<Modelo.Docente.Professor> Professores { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -37,7 +39,7 @@ namespace projeto_mvc.Data
 
             // capítulo 9
             modelBuilder.Entity<CursoProfessor>()
-                                    .HasKey(cd => new { cd.CursoID, cd.ProfessorID });
+                .HasKey(cd => new { cd.CursoID, cd.ProfessorID });
             modelBuilder.Entity<CursoProfessor>()
                 .HasOne(c => c.Curso)
                 .WithMany(cd => cd.CursosProfessores)

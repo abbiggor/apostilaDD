@@ -12,10 +12,10 @@ namespace projeto_mvc.Data.DAL.Discente
             _context = context;
         }
         public IQueryable<Academico> ObterAcademicosClassificadosPorNome()
-			{
-			    return	_context.Academicos.OrderBy(b   =>	b.Nome);
-			}
-			public async Task<Academico> ObterAcademicoPorId(long id)
+		{
+			return	_context.Academicos.OrderBy(b   =>	b.Nome);
+		}
+		public async Task<Academico> ObterAcademicoPorId(long id)
         {
             return await _context.Academicos.FindAsync(id);
         }
