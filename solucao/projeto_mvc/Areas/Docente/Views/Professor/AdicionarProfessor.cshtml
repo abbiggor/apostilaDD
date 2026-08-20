@@ -17,7 +17,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="DepartamentoID" class="control-label"></label>
-                <select asp-for="DepartamentoID" class="form-control" asp-items="@(new SelectList(@ViewBag.Departamentos, "DepartamentoID", "Nome"))" data-url = "@Url.Action("ObterDepartamentoPorInstituicao", "Professor", new { area = "Docente"})"> </select>                
+                <select asp-for="DepartamentoID" class="form-control" asp-items="@(new SelectList(@ViewBag.Departamentos, "DepartamentoID", "Nome"))" data-url = "@Url.Action("ObterDepartamentosPorInstituicao", "Professor", new { area = "Docente"})"> </select>                
             </div>
             <div class="form-group">
                 <label asp-for="CursoID" class="control-label"></label>
@@ -45,18 +45,18 @@
             var instituicaoID = $(this).find(":selected").val();
             GetDadosParaDropDownList(instituicaoID, '#DepartamentoID', 'DEPARTAMENTO');
         });
-        $(document).on("change", '#InstituicaoID', function (e) {
-            var instituicaoID = $(this).find(":selected").val();
+        $(document).on("change", '#DepartamentoID', function (e) {
+            var departamentoID = $(this).find(":selected").val();
             GetDadosParaDropDownList(departamentoID, '#CursoID', 'CURSO');
         });
         $(document).on("change", '#CursoID', function (e) {
-            var instituicaoID = $(this).find(":selected").val();
-            GetDadosParaDropDownList(instituicaoID, '#ProfessorID', 'PROFESSOR');
+            var cursoID = $(this).find(":selected").val();
+            GetDadosParaDropDownList(cursoID, '#ProfessorID', 'PROFESSOR');
         });
 
         function GetDadosParaDropDownList(valorBuscar, controleAtualizar, nomeDado) {
             var optionControleAtualizar = controleAtualizar + ' option';
-            if (valorBuscar.lengh > 0) {
+     //       if (valorBuscar.lengh > 0) {
                 var url = $(controleAtualizar).data('url');
                 $.getJSON(url, { actionID: valorBuscar }, function(dadosRecebidos) {
                     $(optionControleAtualizar).remove();
@@ -70,10 +70,10 @@
                     debugger;
                     alert('Erro de conexão', 'Erro obtendo dados');
                 });
-            } else {
-                $(optionControleAtualizar).remove();
-                $(controleAtualizar).append('<option value=""></option>');
-            }
+            // } else {
+            //     $(optionControleAtualizar).remove();
+            //     $(controleAtualizar).append('<option value=""></option>');
+            // }
         }
         
     </script>
