@@ -14,7 +14,7 @@ namespace projeto_mvc.Data.DAL.Docente
 
         public IQueryable<Professor> ObterProfessoresClassificadosPorNome()
         {
-            return _context.Professores.OrderBy(b  => b.Nome);
+            return _context.Professores.OrderBy(b => b.Nome);
         }
 
        

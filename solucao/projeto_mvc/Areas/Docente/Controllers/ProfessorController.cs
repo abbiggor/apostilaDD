@@ -64,11 +64,11 @@ namespace projeto_mvc.Areas.Docente.Controllers
             else
             {
                 cursoDAL.RegistrarProfessor((long)model.CursoID, (long)model.ProfessorID);
+
                 PrepararViewBags(instituicaoDAL.ObterInstituicoesClassificadasPorNome().ToList(),
                     departamentoDAL.ObterDepartamentosPorInstituicao((long)model.InstituicaoID).ToList(),
                     cursoDAL.ObterCursosPorDepartamento((long)model.DepartamentoID).ToList(),
-                    cursoDAL.ObterProfessoresForaDoCurso((long)model.CursoID).ToList()
-                    );
+                    cursoDAL.ObterProfessoresForaDoCurso((long)model.CursoID).ToList());
             }
             return View(model);
         }
