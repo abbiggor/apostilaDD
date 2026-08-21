@@ -22,6 +22,11 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<IESContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("IESConnection")));
 //// e por meio da lambda, configura o contexto para buscar a string de conexão criada no appsettings.json
+///
+
+// capitulo 9
+builder.Services.AddSession();
+builder.Services.AddDistributedMemoryCache();
 
 var app = builder.Build();
 
@@ -55,6 +60,9 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+// capitulo 9
+app.UseSession();
 
 // o bloco seguinte cria um escopo de serviço que inicializa o banco de dados caso ainda não exista
 using (var scope = app.Services.CreateScope())

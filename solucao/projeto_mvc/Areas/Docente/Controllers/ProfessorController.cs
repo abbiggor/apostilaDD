@@ -7,6 +7,8 @@ using projeto_mvc.Data;
 using projeto_mvc.Data.DAL.Cadastros;
 using projeto_mvc.Data.DAL.Discente;
 using projeto_mvc.Data.DAL.Docente;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace projeto_mvc.Areas.Docente.Controllers
 {
@@ -65,6 +67,8 @@ namespace projeto_mvc.Areas.Docente.Controllers
             {
                 cursoDAL.RegistrarProfessor((long)model.CursoID, (long)model.ProfessorID);
 
+                RegistrarProfessorNaSessao((long)model.CursoID, (long)model.ProfessorID);
+
                 PrepararViewBags(instituicaoDAL.ObterInstituicoesClassificadasPorNome().ToList(),
                     departamentoDAL.ObterDepartamentosPorInstituicao((long)model.InstituicaoID).ToList(),
                     cursoDAL.ObterCursosPorDepartamento((long)model.DepartamentoID).ToList(),
@@ -72,6 +76,35 @@ namespace projeto_mvc.Areas.Docente.Controllers
             }
             return View(model);
         }
+
+        public void RegistrarProfessorNaSessao(long cursoID, long professorID)
+        {
+            var cursoProfessor = new CursoProfessor() { ProfessorID = professorID, CursoID = cursoID };
+            List<CursoProfessor> cursosProfessor = new List<CursoProfessor>();
+            string cursosProfessoresSession = HttpContext.Session.GetString("cursosProfessores");
+            if (cursosProfessoresSession != null)
+            {
+                cursosProfessor = JsonConvert.DeserializeObject<List<CursoProfessor>>(cursosProfessoresSession);
+            }
+            cursosProfessor.Add(cursoProfessor);
+            HttpContext.Session.SetString("cursosProfessores", JsonConvert.SerializeObject(cursosProfessor));
+        }
+
+
+        public IActionResult VerificarUltimosRegistros()
+        {
+            List<CursoProfessor> cursosProfessor = new List<CursoProfessor>();
+            string cursosProfessoresSession = HttpContext.Session.GetString("cursosProfessores");
+            if (cursosProfessoresSession != null)
+            {
+                cursosProfessor = JsonConvert.DeserializeObject<List<CursoProfessor>>(cursosProfessoresSession);
+            }
+            return View(cursosProfessor);
+        }
+
+
+
+
 
         public JsonResult ObterDepartamentosPorInstituicao(long actionID)
         {
