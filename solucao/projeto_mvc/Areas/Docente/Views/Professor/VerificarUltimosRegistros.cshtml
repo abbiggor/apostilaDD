@@ -16,7 +16,13 @@
         <thead>
             <tr>
                 <th>
+                    @Html.DisplayNameFor(model => model.CursoID)
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.Curso)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProfessorID)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Professor)
@@ -31,7 +37,13 @@
                         @Html.DisplayFor(modelItem => item.CursoID)
                     </td>
                     <td>
+                        @Html.DisplayFor(modelItem => item.Curso)
+                    </td>
+                    <td>
                         @Html.DisplayFor(modelItem => item.ProfessorID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Professor)
                     </td>
                 </tr>
             }
