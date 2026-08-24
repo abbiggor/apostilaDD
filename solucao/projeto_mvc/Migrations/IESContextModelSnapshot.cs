@@ -295,7 +295,7 @@ namespace projeto_mvc.Migrations
 
                     b.HasIndex("ProfessorID");
 
-                    b.ToTable("CursoProfessores");
+                    b.ToTable("CursoProfessor");
                 });
 
             modelBuilder.Entity("Modelo.Docente.Professor", b =>

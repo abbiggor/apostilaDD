@@ -1,15 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Modelo.Cadastros;
 using Modelo.Docente;
-using Newtonsoft.Json;
 using projeto_mvc.Areas.Docente.Models;
 using projeto_mvc.Data;
 using projeto_mvc.Data.DAL.Cadastros;
 using projeto_mvc.Data.DAL.Discente;
 using projeto_mvc.Data.DAL.Docente;
 using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace projeto_mvc.Areas.Docente.Controllers
 {
@@ -78,15 +77,9 @@ namespace projeto_mvc.Areas.Docente.Controllers
             return View(model);
         }
 
-        
-
         public void RegistrarProfessorNaSessao(long cursoID, long professorID)
         {
-            // define curso e professor para cursoProfessor obter a o objeto completo
-            var curso = _context.Cursos.Include(c => c.Departamento).FirstOrDefault(c => c.CursoID == cursoID);
-            var professor = _context.Professores.FirstOrDefault(p => p.ProfessorID == professorID);
-
-            var cursoProfessor = new CursoProfessor() { ProfessorID = professorID, CursoID = cursoID, Professor = professor, Curso = curso};
+            var cursoProfessor = new CursoProfessor() { ProfessorID = professorID, CursoID = cursoID};
             List<CursoProfessor> cursosProfessor = new List<CursoProfessor>();
             string cursosProfessoresSession = HttpContext.Session.GetString("cursosProfessores");
             if (cursosProfessoresSession != null)
@@ -96,7 +89,6 @@ namespace projeto_mvc.Areas.Docente.Controllers
             cursosProfessor.Add(cursoProfessor);
             HttpContext.Session.SetString("cursosProfessores", JsonConvert.SerializeObject(cursosProfessor));
         }
-
 
 
         public IActionResult VerificarUltimosRegistros()
@@ -109,7 +101,9 @@ namespace projeto_mvc.Areas.Docente.Controllers
             }
             return View(cursosProfessor);
         }
-        
+
+
+
 
 
         public JsonResult ObterDepartamentosPorInstituicao(long actionID)
