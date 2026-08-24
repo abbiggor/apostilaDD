@@ -19,13 +19,13 @@
                     @Html.DisplayNameFor(model => model.CursoID)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Curso)
+                    @Html.DisplayNameFor(model => model.Curso.Nome)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.ProfessorID)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Professor)
+                    @Html.DisplayNameFor(model => model.Professor.Nome)
                 </th>
             </tr>
         </thead>
@@ -37,13 +37,13 @@
                         @Html.DisplayFor(modelItem => item.CursoID)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Curso)
+                        @Html.DisplayFor(modelItem => item.Curso.Nome)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.ProfessorID)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Professor)
+                        @Html.DisplayFor(modelItem => item.Professor.Nome)
                     </td>
                 </tr>
             }

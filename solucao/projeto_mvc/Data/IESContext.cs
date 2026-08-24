@@ -23,6 +23,9 @@ namespace projeto_mvc.Data
 
         public DbSet<Modelo.Docente.Professor> Professores { get; set; }
 
+        // criar a tabela no banco
+        public DbSet<Modelo.Docente.CursoProfessor> CursoProfessores { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
