@@ -99,6 +99,22 @@ namespace projeto_mvc.Areas.Docente.Controllers
             {
                 cursosProfessor = JsonConvert.DeserializeObject<List<CursoProfessor>>(cursosProfessoresSession);
             }
+
+
+
+            // preenche curso e professor para exibir na view
+            foreach (var cp in cursosProfessor)
+            {
+                if (cp.CursoID != null)
+                {
+                    cp.Curso = _context.Cursos.FirstOrDefault(c => c.CursoID == cp.CursoID);
+                }
+                if (cp.ProfessorID != null)
+                {
+                    cp.Professor = _context.Professores.FirstOrDefault(p => p.ProfessorID == cp.ProfessorID);
+                }
+            }
+
             return View(cursosProfessor);
         }
 

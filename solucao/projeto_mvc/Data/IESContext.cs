@@ -42,11 +42,11 @@ namespace projeto_mvc.Data
             modelBuilder.Entity<CursoProfessor>()
                 .HasKey(cd => new { cd.CursoID, cd.ProfessorID });
             modelBuilder.Entity<CursoProfessor>()
-                .HasOne(c => c.NomeCurso)
+                .HasOne(c => c.Curso)
                 .WithMany(cd => cd.CursosProfessores)
                 .HasForeignKey(c => c.CursoID);
             modelBuilder.Entity<CursoProfessor>()
-                .HasOne(d => d.NomeProfessor)
+                .HasOne(d => d.Professor)
                 .WithMany(cd => cd.CursosProfessores)
                 .HasForeignKey(d => d.ProfessorID);
 

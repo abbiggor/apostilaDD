@@ -26,7 +26,7 @@ namespace projeto_mvc.Data.DAL.Cadastros
         {
             var curso = _context.Cursos.Where(c => c.CursoID == cursoID).Include(cp => cp.CursosProfessores).First();
             var professor = _context.Professores.Find(professorID);
-            curso.CursosProfessores.Add(new CursoProfessor() { NomeCurso = curso, NomeProfessor = professor });
+            curso.CursosProfessores.Add(new CursoProfessor() { Curso = curso, Professor = professor });
             _context.SaveChanges();
         }   
 

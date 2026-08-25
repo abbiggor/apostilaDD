@@ -16,11 +16,18 @@
         <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.NomeCurso)
+                    @Html.DisplayNameFor(model => model.CursoID)
+                </th>
+                <th>
+                    Nome do Curso
                 </th>
       
                 <th>
-                    @Html.DisplayNameFor(model => model.NomeProfessor)
+                    @Html.DisplayNameFor(model => model.ProfessorID)
+                </th>
+
+                <th>
+                    Nome do Professor
                 </th>
             </tr>
         </thead>
@@ -31,9 +38,21 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.CursoID)
                     </td>
+
+                    <!-- Trazer nome do curso -->
+                    <td>
+                        @item.Curso.Nome
+                    </td>
+
                     <td>
                         @Html.DisplayFor(modelItem => item.ProfessorID)
                     </td>
+                    
+                    <!-- Trazer nome do professor -->
+                    <td>
+                        @item.Professor.Nome
+                    </td>
+
                 </tr>
             }
         </tbody>
