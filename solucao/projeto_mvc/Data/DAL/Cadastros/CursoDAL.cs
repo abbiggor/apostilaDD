@@ -7,12 +7,10 @@ namespace projeto_mvc.Data.DAL.Cadastros
     public class CursoDAL
     {
         private IESContext _context;
-
         public CursoDAL(IESContext context)
         {
             _context = context;
         }
-
         public IQueryable<Curso> ObterCursosClassificadosPorNome()
         {
             return _context.Cursos.OrderBy(b => b.Nome);
@@ -28,16 +26,18 @@ namespace projeto_mvc.Data.DAL.Cadastros
         {
             var curso = _context.Cursos.Where(c => c.CursoID == cursoID).Include(cp => cp.CursosProfessores).First();
             var professor = _context.Professores.Find(professorID);
-            curso.CursosProfessores.Add(new CursoProfessor() { Curso = curso, Professor = professor });
+            curso.CursosProfessores.Add(new CursoProfessor() { NomeCurso = curso, NomeProfessor = professor });
             _context.SaveChanges();
-        }
+        }   
 
         public IQueryable<Professor> ObterProfessoresForaDoCurso(long cursoID)
         {
-            var curso = _context.Cursos.Where(c => c.CursoID == cursoID).Include(cp => cp.CursosProfessores).First();
+            var curso =_context.Cursos.Where(c => c.CursoID == cursoID).Include(cp => cp.CursosProfessores).First();
             var professoresDoCurso = curso.CursosProfessores.Select(cp => cp.ProfessorID).ToArray();
             var professoresForaDoCurso = _context.Professores.Where(p => !professoresDoCurso.Contains(p.ProfessorID));
             return professoresForaDoCurso;
         }
+
+
     }
 }

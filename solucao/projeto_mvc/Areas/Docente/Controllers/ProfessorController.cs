@@ -79,7 +79,7 @@ namespace projeto_mvc.Areas.Docente.Controllers
 
         public void RegistrarProfessorNaSessao(long cursoID, long professorID)
         {
-            var cursoProfessor = new CursoProfessor() { ProfessorID = professorID, CursoID = cursoID};
+            var cursoProfessor = new CursoProfessor() { ProfessorID = professorID, CursoID = cursoID };
             List<CursoProfessor> cursosProfessor = new List<CursoProfessor>();
             string cursosProfessoresSession = HttpContext.Session.GetString("cursosProfessores");
             if (cursosProfessoresSession != null)

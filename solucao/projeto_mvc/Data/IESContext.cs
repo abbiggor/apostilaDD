@@ -22,6 +22,7 @@ namespace projeto_mvc.Data
         public DbSet<Modelo.Discente.Academico> Academicos { get; set; }
 
         public DbSet<Modelo.Docente.Professor> Professores { get; set; }
+        public DbSet<Modelo.Docente.CursoProfessor> CursosProfessores { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -41,11 +42,11 @@ namespace projeto_mvc.Data
             modelBuilder.Entity<CursoProfessor>()
                 .HasKey(cd => new { cd.CursoID, cd.ProfessorID });
             modelBuilder.Entity<CursoProfessor>()
-                .HasOne(c => c.Curso)
+                .HasOne(c => c.NomeCurso)
                 .WithMany(cd => cd.CursosProfessores)
                 .HasForeignKey(c => c.CursoID);
             modelBuilder.Entity<CursoProfessor>()
-                .HasOne(d => d.Professor)
+                .HasOne(d => d.NomeProfessor)
                 .WithMany(cd => cd.CursosProfessores)
                 .HasForeignKey(d => d.ProfessorID);
 
